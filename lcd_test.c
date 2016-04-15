@@ -78,20 +78,22 @@ void lyricDisplay(){
         char buffer[11];
         int delayMS;
         uint8_t i;
-        for(i=0;i<120;i++){
+        for(i=0;i<125;i++){
              f_gets (line, 30, &File);
              f_gets(delay,5,&File);
              f_gets(buffer,10,&File);
-             //delayMS= (delay[1]-'0')*10 + (delay[2]-'0');
+             delayMS= ((delay[1]-'0')*10 + (delay[2]-'0'))*10 + (delay[3]-'0');
 
-             if(line[1] == ' ') print_delayed("\n",10);
+             if(line[1] == ' ') print_delayed("\n",delayMS);
              else if(line[1] == '*')
                 if( line[2] == ' ' ) clean_main();
-                else display_gliph(line[2]);
-             else {
-                    print_delayed(line ,10);
-                    print_delayed("\n",1);
-             }
+                else if(line[2]== 't') _delay_ms(delayMS);
+                    else display_gliph(line[2]);
+             else
+                {
+                print_delayed(line ,delayMS);
+                print_delayed("\n",1);
+                }
              //f_lseek(&File, 30);
         }
         f_close(&File);

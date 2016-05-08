@@ -1,16 +1,22 @@
-
 #include <avr/io.h>
 #include <util/delay.h>
 #include "lcd.h"
 #include "printf.h"
 #include "ff.h"
 
+
 #define CHAR_HEIGHT 6
 #define CHAR_WIDTH  6
+
 void init(void);
+//Setup top of the main panel
 uint16_t x=8,y=(CHAR_HEIGHT+1)*2;
 uint16_t px=190,py=125;
+uint16_t position = 0;
+
 rectangle r;
+
+//Gliph methods
 void display_aperture();
 void display_nuke();
 void display_science();
@@ -21,67 +27,86 @@ void display_fire();
 //void display_strange();
 void display_happy4u();
 void display_heart();
-void display_gliph(char c);
-FATFS FatFs;
-FIL File;  						/* FAT File */
-FIL File2;
 
-int position = 0;
+//Central gliph method
+void display_background();
+void display_gliph(char c);
+
+FATFS FatFs;                    /* File System */
+FIL File;  						/* FAT File */
+
+//Displays text with a given delay between letters
+//Also blinks the "_"
 void print_delayed(char* str,uint8_t delay){
     uint8_t i=0;
-    while(str[i]!='\0')
-        {if(str[i]== '\n') {
+    char lastChr = 0;
+
+    while(str[i]!='\0'){
+        //Avoids printing spaces at the end of the line
+        if(lastChr != 0 && lastChr == str[i] && lastChr == ' ')
+            str[i+1]='\0';
+        lastChr = str[i];
+
+        if(str[i]== '\n') {             //Newline handling
             y+=CHAR_HEIGHT*2;
             x=8;
         }
-         else
-            {display_char_xy(str[i],x,y);
-             x+=CHAR_WIDTH;
+        else{
+            display_char_xy(str[i],x,y);
+             x+=CHAR_WIDTH;             //Next letter placement
             }
          _delay_ms(delay);
 
-         display_string_xy("_",x,y);
+         display_string_xy("_",x,y);    //Underline blinking
          _delay_ms(delay);
-         r.bottom =y+6;
-         r.top = y;
+
+         r.top = y;                    //Setup cleaning rectangle
+         r.bottom =y+CHAR_HEIGHT;
          r.left =x;
-         r.right=x+5;
-         fill_rectangle(r,BLACK);
+         r.right=x+CHAR_WIDTH -1;
+
+         fill_rectangle(r,BLACK);      //Fill the rectangle
          _delay_ms(delay);
         i++;}
 }
 
+//Clears the main display window
 void clean_main(){
-    r.top=(CHAR_HEIGHT+1)*2;
+    r.top=(CHAR_HEIGHT+1)*2;    //Setup and fill rectangle
     r.bottom=225;
     r.left=8;
     r.right=8+ (CHAR_WIDTH)*29;
+
     fill_rectangle(r,BLACK);
+
+    //Reset the positions for printing
     x=8;
     y=(CHAR_HEIGHT+1)*2;
 }
 
+//Clear the gliph display window
 void clear_ascii(){
+    r.top=py;                   //Setup and fill rectangle
+    r.bottom=240;
     r.left=px;
     r.right=320;
-    r.top=py;
-    r.bottom=240;
+
     fill_rectangle(r,BLACK);
 }
 
+//Reads lyrics from the "lyrics.txt" text file on the FAT FS
 void lyricDisplay(){
     f_mount(&FatFs, "", 0);
-
     if (f_open(&File, "lyrics.txt", FA_READ) == FR_OK) {
         char line[32];
         char delay[5];
         char buffer[11];
         int delayMS;
         uint8_t i;
-        for(i=0;i<125;i++){
+        for(i=0;i<130;i++){
              f_gets (line, 30, &File);
              f_gets(delay,5,&File);
-             f_gets(buffer,10,&File);
+             f_gets(buffer,5,&File);
              delayMS= ((delay[1]-'0')*10 + (delay[2]-'0'))*10 + (delay[3]-'0');
 
              if(line[1] == ' ') print_delayed("\n",delayMS);
@@ -97,7 +122,6 @@ void lyricDisplay(){
              //f_lseek(&File, 30);
         }
         f_close(&File);
-         print_delayed("Citit pozitie\n",10);
     } else {
         print_delayed("Test initiative unsuccesful \n",10);
     }
@@ -105,7 +129,12 @@ void lyricDisplay(){
 
 void main(void) {
     init();
+
+    //Display background
     display_color(GOLD, BLACK);
+    display_background();
+
+    /*
     uint8_t i;
     display_string("------------------------------- ---------------------\n");
     display_string("\n");
@@ -120,12 +149,48 @@ void main(void) {
     display_string("\n");
     }
     display_string(" -------------------------------\n");
+    */
+    //Start displaying lyrics
     lyricDisplay();
 }
 
-// For the good of all of us
-// 30064 ms
 
+void display_background(){
+    uint8_t i,j;
+    for(i=0;i<31;i++)
+        display_string("-");
+    display_string(" ");
+    for(i=0;i<21;i++)
+        display_string("-");
+    display_string("\n\n");
+
+    for(i=0;i<6;i++){
+        display_string("|");
+        for(j=0;j<30;j++)
+            display_string(" ");
+        display_string("||");
+        for(j=0;j<19;j++)
+            display_string(" ");
+        display_string("|\n\n");
+    }
+    display_string("|");
+    for(j=0;j<30;j++)
+            display_string(" ");
+    display_string("||_ _ _ _ _ _ _ _ _ _|\n\n");
+
+    for(i=0;i<6;i++){
+        display_string("|");
+        for(j=0;j<30;j++)
+                display_string(" ");
+        display_string("|\n\n");
+        }
+
+    display_string(" ");
+    for(j=0;j<31;j++)
+                display_string("-");
+    display_string("\n");
+
+}
 void display_aperture(){
     clear_ascii();
     int tpy=py;
@@ -197,7 +262,6 @@ void display_science(){
     display_ascii("	                //    +;                ",px,tpy+=5);
     display_ascii("	                 ,////,                 ",px,tpy+=5);
 }
-
 void display_heart(){
     clear_ascii();
     int tpy=py;
@@ -223,7 +287,8 @@ void display_heart(){
     display_ascii("	                      .,    ..           ",px,tpy+=5);
     display_ascii("                                          ",px,tpy+=5);
 
-}/*
+}
+/*
 void display_pieces(){
     clear_ascii();
     int tpy=py;
@@ -247,7 +312,8 @@ void display_pieces(){
     display_ascii("	 .              ,###;    ;      =$##+   ",px,tpy+=5);
     display_ascii("	                .#H,               :XH, ",px,tpy+=5);
     display_ascii("	                 +                   .;-",px,tpy+=5);
-}*/
+}
+*/
 void display_fire(){
     clear_ascii();
     int tpy=py;
@@ -370,6 +436,7 @@ void display_strange(){
 }*/
 
 void display_gliph(char c){
+    /*
     if(c == 'a') display_aperture();
     if(c == 'n') display_nuke();
     if(c == 's') display_science();
@@ -380,6 +447,28 @@ void display_gliph(char c){
     //if(c == 'S') display_strange();
     if(c == 'H') display_happy4u();
     if(c == 'h') display_heart();
+    */
+
+    switch(c) {
+      case 'a' :
+         display_aperture(); break;
+      case 'n' :
+          display_nuke();break;
+      case 's' :
+         display_science(); break;
+      case 'c' :
+         display_cake();break;
+      case 'b' :
+         display_blackMesa();break;
+     case 'f' :
+         display_fire();break;
+     case 'H' :
+        display_happy4u();break;
+     case 'h' :
+        display_heart();break;
+      default :
+         break;
+   }
 }
 
 void init(void) {

@@ -1,0 +1,130 @@
+Forms FORM-29827281-12:      $026
+Test Assessment Report       $026
+                             $756
+This was a triumph.          $032
+I'm making a note here:      $021
+HUGE SUCCESS.                $044
+It's hard to overstate       $033
+my satisfaction.             $101
+Aperture Science             $075
+ *a                          $010
+                             $010
+We do what we must           $027
+because we can.              $067
+For the good of all of us.   $043
+Except the ones who are dead.$018
+ *n                          $001
+ *                           $001
+Forms FORM-29827281-12:      $001
+Test Assessment Report       $001
+                             $001
+ *a                          $001
+But there's no sense crying  $019
+over every mistake.          $030
+You just keep on trying      $025
+till you run out of cake.    $021
+ *s                          $001
+And the Science gets done.   $022
+And you make a neat gun.     $026
+ *a                          $001
+For the people who are       $025
+still alive.                 $030
+ *                           $010
+Forms FORM-55551-5:          $012
+Personnel File Addendum:     $012
+                             $001
+Dear <<Subject Name Here>>,  $026
+                             $001
+I'm not even angry.          $065
+I'm being so sincere         $038
+right now.                   $083
+Even though you              $044
+broke my heart.              $031
+ *h                          $001
+And killed me.               $028
+And tore me to pieces.       $054
+ *p                          $001
+And threw every piece        $022
+into a fire.                 $051
+ *f                          $001
+As they burned               $030
+it hurt because              $028
+ *H                          $001
+ I was so happy for you!     $021
+ *                           $001
+Forms FORM-55551-5:          $001
+Personnel File Addendum:     $001
+                             $001
+Now these points of data     $023
+make a beautiful line.       $027
+And we're out of beta.       $024
+We're releasing on time.     $024
+ *p                          $010
+So I'm GLaD. I got burned.   $022
+ *s                          $010
+Think of all the things      $017
+we learned                   $016
+ *a                          $010
+for the people who are       $019
+still alive.                 $048
+ *                           $010
+Forms FORM-55551-6:          $021
+Personnel File               $011
+Addendum Addendum:           $011
+                             $001
+One last thing:              $043
+                             $001
+Go ahead and leave me.       $021
+ I think I prefer            $052
+to stay inside.              $066
+Maybe you'll find            $031
+someone else                 $038
+to help you.                 $033
+Maybe Black Mesa...          $091
+ *b                          $010
+THAT WAS A JOKE.             $026
+HA HA. FAT CHANCE.           $038
+ *                           $001
+Forms FORM-55551-6:          $001
+Personnel File               $001
+Addendum Addendum:           $001
+                             $010
+Anyway, this cake is great.  $039
+ *c                          $010
+It's so delicious and moist. $021
+ *S                          $010
+Look at me still talking     $021
+ *n                          $010
+when there's Science to do.  $023
+ *a                          $010
+When I look out there,       $022
+it makes me GLaD I'm not you.$021
+ *s                          $010
+I've experiments to run.     $027
+ *p                          $010
+There is research to be done.$023
+ *a                          $010
+On the people who are        $024
+still alive.                 $050
+ *                           $010
+                             $010
+PS: And believe me I am      $025
+still alive.                 $034
+PPS: I'm doing Science       $033
+and I'm                      $021
+still alive.                 $026
+PPPS: I feel FANTASTIC       $020
+and I'm                      $031
+still alive.                 $026
+                             $001
+FINAL THOUGHT:               $015
+While you're dying           $023
+I'll be                      $026
+still alive.                 $034
+ *                           $001
+FINAL THOUGHT PS:            $016
+And when you're dead         $021
+ I will be                   $025
+still alive.                 $030
+                             $001
+STILL ALIVE                  $033
